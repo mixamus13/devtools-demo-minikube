@@ -1,0 +1,33 @@
+kind: Service
+apiVersuin: v1
+metadata:
+  name: devtools-demo
+spec:
+  selector:
+    app: devtools-demo
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devtools-demo
+spec:
+  selector:
+    matchlabels:
+      app: devtools-demo
+  replace: 3
+  template:
+    metadata:
+      labels:
+        app: devtools-demo
+    spec:
+      containers:
+        - name: devtools-demo
+          image: devtools-demo:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 9999
